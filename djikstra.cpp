@@ -1,5 +1,7 @@
 //Created by Brandon Barnes
 
+//Update to check for negative weight?
+
 //Requires use of at least c++11
 
 //displayMatrix design modified from: https://www.tutorialspoint.com/cplusplus-program-to-implement-adjacency-matrix
@@ -185,16 +187,26 @@ vector<vector <Node> > djikstra(vector<vector <Node> > &graph, int row, int colu
 				pQueue.push(&(graph[tempRow][tempColumn]));
 			}
 			else if(graph[tempRow][tempColumn].getTraversed()==1){
+				if(temp.getWeight()<0){
+					return graph;
+				}
 				if(graph[tempRow][tempColumn].getDistance()>(distanceHolder+temp.getWeight())){
 					graph[tempRow][tempColumn].setDistance(distanceHolder+temp.getWeight());
 					graph[tempRow][tempColumn].setParent(workingNode);
 				}
+				pQueue.pop();
+				pQueue.push(workingNode);
 			}
 			else{
+				if(temp.getWeight()<0){
+					return graph;
+				}
 				if(graph[tempRow][tempColumn].getDistance()>(distanceHolder+temp.getWeight())){
 					graph[tempRow][tempColumn].setDistance(distanceHolder+temp.getWeight());
 					graph[tempRow][tempColumn].setParent(workingNode);
 				}
+				pQueue.pop();
+				pQueue.push(workingNode);
 			}
 		}
 		
